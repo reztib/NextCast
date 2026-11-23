@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.nextcast"
+    namespace = "com.reztib.nextcast"
     compileSdk {
         version = release(36)
     }

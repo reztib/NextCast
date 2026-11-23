@@ -1,4 +1,4 @@
-package com.example.nextcast
+package com.reztib.nextcast
 
 import org.junit.Test
 

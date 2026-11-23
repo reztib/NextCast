@@ -1,4 +1,4 @@
-package com.example.nextcast.ui.theme
+package com.reztib.nextcast.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

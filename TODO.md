@@ -4,7 +4,7 @@
 - [X] **Android Studio** installieren und ein neues Projekt (*Empty Activity* mit Kotlin & Jetpack Compose) anlegen
 - [X] **Minimum SDK** passend zur Android-Version des Samsung-Tablets wählen
 - [X] Tablet per USB/ADB verbinden und testen, ob die leere Starter-App auf dem Gerät startet
-- [ ] **Berechtigungen & Dependencies** einrichten:
+- [X] **Berechtigungen & Dependencies** einrichten:
     - [X] `<uses-permission android:name="android.permission.INTERNET" />` in der `AndroidManifest.xml` ergänzen
     - [X] HTTP-Client & JSON-Parser (z. B. *Ktor* oder *Retrofit* + *kotlinx.serialization*) in `build.gradle.kts` hinzufügen
 - [ ] **API-Endpunkte im Browser testen:**
