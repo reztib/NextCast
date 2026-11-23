@@ -1,12 +1,12 @@
 # Tablet-Dashboard (Wetter & ÖPNV) – Projekt-ToDo
 
 ## Phase 1: Setup & Vorbereitung
-- [ ] **Android Studio** installieren und ein neues Projekt (*Empty Activity* mit Kotlin & Jetpack Compose) anlegen
-- [ ] **Minimum SDK** passend zur Android-Version des Samsung-Tablets wählen
-- [ ] Tablet per USB/ADB verbinden und testen, ob die leere Starter-App auf dem Gerät startet
+- [X] **Android Studio** installieren und ein neues Projekt (*Empty Activity* mit Kotlin & Jetpack Compose) anlegen
+- [X] **Minimum SDK** passend zur Android-Version des Samsung-Tablets wählen
+- [X] Tablet per USB/ADB verbinden und testen, ob die leere Starter-App auf dem Gerät startet
 - [ ] **Berechtigungen & Dependencies** einrichten:
-    - [ ] `<uses-permission android:name="android.permission.INTERNET" />` in der `AndroidManifest.xml` ergänzen
-    - [ ] HTTP-Client & JSON-Parser (z. B. *Ktor* oder *Retrofit* + *kotlinx.serialization*) in `build.gradle.kts` hinzufügen
+    - [X] `<uses-permission android:name="android.permission.INTERNET" />` in der `AndroidManifest.xml` ergänzen
+    - [X] HTTP-Client & JSON-Parser (z. B. *Ktor* oder *Retrofit* + *kotlinx.serialization*) in `build.gradle.kts` hinzufügen
 - [ ] **API-Endpunkte im Browser testen:**
     - [ ] Eigene **Haltestellen-ID** über `v6.db.transport.rest/locations?query=...` heraussuchen
     - [ ] Abfahrts-Endpoint (`/stops/{ID}/departures`) prüfen und relevante JSON-Felder notieren (`line.name`, `direction`, `when`, `delay`)
