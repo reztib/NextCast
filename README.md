@@ -22,7 +22,7 @@ Minimalistisches Android-Dashboard zur Anzeige von lokalem Wetter und Echtzeit-�
 ```text
 app/src/main/
 ├── AndroidManifest.xml                  # Internet-Berechtigung & Launcher-Intent (CATEGORY_HOME)
-└── java/com/<deinname>/nextcast/
+└── java/com/reztib/nextcast/
     ├── MainActivity.kt                  # Einstiegspunkt, Kiosk-Flags, Dimmung & Hauptlayout
     ├── network/
     │   └── HttpClientProvider.kt        # Zentraler Ktor-Client (JSON-Serializer & Timeouts)
