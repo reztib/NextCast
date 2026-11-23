@@ -5,27 +5,30 @@ Minimalistisches Android-Dashboard zur Anzeige von lokalem Wetter und Echtzeit-�
 ## Funktionen
 
 - **Wetter:** Aktuelle Temperatur, Wetterbedingungen und Tagesvorhersage über die Open-Meteo-API.
-- **ÖPNV:** Live-Abfahrtsmonitor inklusive Verspätungsinformationen über die `v6.db.transport.rest`-API.
+- **ÖPNV:** Live-Abfahrtsmonitor inklusive Echtzeit-Prognosen und Richtungsfilter über die offizielle VRN Open-Service-API (RapidJSON).
 - **Kiosk-Modus:** Dunkles Vollbild-Interface, dauerhaft aktives Display, automatische Nacht-Dimmung und Unterstützung als Standard-Launcher.
 
 ## Tech-Stack
 
 - **Sprache:** Kotlin
 - **UI:** Jetpack Compose
-- **Netzwerk:** Ktor / Retrofit + kotlinx.serialization
+- **Netzwerk:** Ktor Client + kotlinx.serialization
 - **APIs:**
-    - [Open-Meteo](https://open-meteo.com) (Wetterdaten)
-    - [v6.db.transport.rest](https://transport.rest) (ÖPNV / HAFAS)
-
-## Setup
-
-1. Repository klonen und das Projekt in Android Studio öffnen.
-2. Eigene Koordinaten sowie die gewünschte Haltestellen-ID in den Konfigurationskonstanten hinterlegen.
-3. App bauen und per ADB auf dem Zielgerät installieren.
-4. Optional: App auf dem Tablet als Standard-Startbildschirm (Launcher) festlegen.
+  - [Open-Meteo](https://open-meteo.com) (Wetterdaten)
+  - [VRN Open Data / RapidJSON](https://vrn.de) (ÖPNV / EFA)
 
 ## Projektstruktur
 
 - `MainActivity.kt` – Einstiegspunkt, Fenster-Flags, Helligkeitssteuerung und Compose-Hauptlayout.
+- `network/`
+  - `HttpClientProvider.kt` – Zentral konfigurierter Ktor-Client mit JSON-Serializer und Timeouts.
+- `departures/`
+  - `DepartureModels.kt` – Datenmodelle (DTOs & UI-Models) sowie Zeit- und Verspätungsberechnung.
+  - `VrnApiClient.kt` – Abruf und Richtungsfilterung der VRN-Abfahrtsdaten (`XML_DM_REQUEST`).
+  - `DepartureBoardScreen.kt` – Compose-UI für die Abfahrtstafel mit automatischer Aktualisierung.
+- `weather/`
+  - `WeatherModels.kt` – Datenmodelle und Mapping der WMO-Wettercodes auf Icons/Texte.
+  - `OpenMeteoClient.kt` – Abruf der lokalen Wetterdaten.
+  - `WeatherWidget.kt` – Compose-Widget für die Wetteranzeige.
 - `AndroidManifest.xml` – Internet-Berechtigung und `CATEGORY_HOME`-Intent-Filter für den Launcher-Modus.
 - `build.gradle.kts` – App-Dependencies und SDK-Konfiguration.
