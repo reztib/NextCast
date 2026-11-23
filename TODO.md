@@ -7,10 +7,15 @@
 - [X] **Berechtigungen & Dependencies** einrichten:
     - [X] `<uses-permission android:name="android.permission.INTERNET" />` in der `AndroidManifest.xml` ergänzen
     - [X] HTTP-Client & JSON-Parser (z. B. *Ktor* oder *Retrofit* + *kotlinx.serialization*) in `build.gradle.kts` hinzufügen
-- [ ] **API-Endpunkte im Browser testen:**
-    - [ ] Eigene **Haltestellen-ID** über `v6.db.transport.rest/locations?query=...` heraussuchen
-    - [ ] Abfahrts-Endpoint (`/stops/{ID}/departures`) prüfen und relevante JSON-Felder notieren (`line.name`, `direction`, `when`, `delay`)
-    - [ ] **Open-Meteo URL** mit eigenen Koordinaten (z. B. `latitude=49.44&longitude=7.77`) testen (`temperature_2m`, `weather_code`, Tageshöchst-/Tiefstwerte)
+- [ ] **API-Endpunkte im Browser testen (VRN RapidJSON):**
+    - [ ] Eigene **Haltestellen-ID** (z. B. `de:07312:...`) über den StopFinder heraussuchen: `https://vrn.de` *(Wert aus `locations[0].id` notieren)*
+    - [ ] Abfahrts-Endpoint (`XML_DM_REQUEST`) mit der ID prüfen (`mode=direct` und `useRealtime=1` sind wichtig!): `https://vrn.de`
+    - [ ] Relevante JSON-Felder im Array `stopEvents[]` notieren:
+      - Liniennummer: `transportation.number` (oder `transportation.disassembledName`)
+      - Fahrtrichtung / Ziel: `transportation.destination.name`
+      - Geplante Abfahrt (ISO-Zeit): `departureTimePlanned`
+      - Echtzeit-Prognose (falls vorhanden): `departureTimeEstimated`
+      - [ ] **Open-Meteo URL** mit eigenen Koordinaten (z. B. `latitude=49.44&longitude=7.77`) testen (`temperature_2m`, `weather_code`, Tageshöchst-/Tiefstwerte)
 
 ---
 
