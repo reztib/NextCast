@@ -19,16 +19,19 @@ Minimalistisches Android-Dashboard zur Anzeige von lokalem Wetter und Echtzeit-�
 
 ## Projektstruktur
 
-- `MainActivity.kt` – Einstiegspunkt, Fenster-Flags, Helligkeitssteuerung und Compose-Hauptlayout.
-- `network/`
-  - `HttpClientProvider.kt` – Zentral konfigurierter Ktor-Client mit JSON-Serializer und Timeouts.
-- `departures/`
-  - `DepartureModels.kt` – Datenmodelle (DTOs & UI-Models) sowie Zeit- und Verspätungsberechnung.
-  - `VrnApiClient.kt` – Abruf und Richtungsfilterung der VRN-Abfahrtsdaten (`XML_DM_REQUEST`).
-  - `DepartureBoardScreen.kt` – Compose-UI für die Abfahrtstafel mit automatischer Aktualisierung.
-- `weather/`
-  - `WeatherModels.kt` – Datenmodelle und Mapping der WMO-Wettercodes auf Icons/Texte.
-  - `OpenMeteoClient.kt` – Abruf der lokalen Wetterdaten.
-  - `WeatherWidget.kt` – Compose-Widget für die Wetteranzeige.
-- `AndroidManifest.xml` – Internet-Berechtigung und `CATEGORY_HOME`-Intent-Filter für den Launcher-Modus.
-- `build.gradle.kts` – App-Dependencies und SDK-Konfiguration.
+```text
+app/src/main/
+├── AndroidManifest.xml                  # Internet-Berechtigung & Launcher-Intent (CATEGORY_HOME)
+└── java/com/<deinname>/nextcast/
+    ├── MainActivity.kt                  # Einstiegspunkt, Kiosk-Flags, Dimmung & Hauptlayout
+    ├── network/
+    │   └── HttpClientProvider.kt        # Zentraler Ktor-Client (JSON-Serializer & Timeouts)
+    ├── departures/
+    │   ├── DepartureModels.kt           # Datenmodelle (DTO/UI) & Restminuten-Berechnung
+    │   ├── VrnApiClient.kt              # VRN-Abfrage (XML_DM_REQUEST) & Richtungsfilter
+    │   └── DepartureBoardScreen.kt      # Compose-UI für die Live-Abfahrtstafel
+    └── weather/
+        ├── WeatherModels.kt             # Datenmodelle & WMO-Wettercode-Mapping
+        ├── OpenMeteoClient.kt           # Abruf der lokalen Wetterdaten (Open-Meteo)
+        └── WeatherWidget.kt             # Compose-UI für das Wetter-Widget
+```
