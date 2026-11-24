@@ -1,4 +1,3 @@
-// TODO: Basis-URL der VRN-API und ermittelte Haltestellen-ID (de:07312:...) als Konstanten definieren
 // TODO: Suspend-Funktion fetchDepartures() schreiben, die XML_DM_REQUEST über HttpClientProvider aufruft
 // TODO: Fehlerbehandlung (try-catch) einbauen, damit die Kiosk-App bei WLAN-Aussetzern nicht abstürzt
 // TODO: JSON-Antwort in eine sortierte Liste von UI-Departure-Objekten mappen
