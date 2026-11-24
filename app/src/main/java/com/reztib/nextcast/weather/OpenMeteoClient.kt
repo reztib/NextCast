@@ -3,3 +3,7 @@
 // TODO: Fehlerbehandlung (try-catch) hinzufügen und Ergebnis in WeatherInfo umwandeln
 package com.reztib.nextcast.weather
 
+import com.reztib.nextcast.BuildConfig
+
+private val latitude = BuildConfig.WEATHER_LAT
+private val longitude = BuildConfig.WEATHER_LON

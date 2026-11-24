@@ -1,3 +1,11 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -18,6 +26,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "VRN_STOP_ID", "\"${localProperties.getProperty("VRN_STOP_ID", "")}\"")
+        buildConfigField("String", "VRN_EXCLUDE_DIRECTION", "\"${localProperties.getProperty("VRN_EXCLUDE_DIRECTION", "")}\"")
+        buildConfigField("String", "WEATHER_LAT", "\"${localProperties.getProperty("WEATHER_LAT", "0.0")}\"")
+        buildConfigField("String", "WEATHER_LON", "\"${localProperties.getProperty("WEATHER_LON", "0.0")}\"")
     }
 
     buildTypes {
@@ -35,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
