@@ -1,9 +1,11 @@
 // TODO: Sauberes UI-Datenmodell "Departure" erstellen (lineNumber, destination, minutesRemaining, delayMinutes)
-// TODO: Hilfsfunktion schreiben, die ISO-Zeitstempel (Planned vs. Estimated) in Restminuten & Verspätung umrechnet
 package com.reztib.nextcast.departures
 
 import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.Instant
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
@@ -32,4 +34,11 @@ data class Transportation(
 data class Destination(
     val name: String? = null
 )
+
+private val timeFormatter  = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
+
+fun formatToGermanTime(utcString: String): String {
+    val instant = Instant.parse(utcString)
+    return timeFormatter.format(instant)
+}
 

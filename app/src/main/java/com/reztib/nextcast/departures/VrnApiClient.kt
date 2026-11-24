@@ -14,6 +14,8 @@
 * - was bei stopEvents.transportation.destination.name den Ortsnamen enthält,
 *       über Kotlin filtern
  */
+@file:OptIn(ExperimentalTime::class)
+
 package com.reztib.nextcast.departures
 
 import com.reztib.nextcast.BuildConfig
@@ -24,7 +26,10 @@ import io.ktor.client.request.*
 import kotlinx.io.IOException
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
+import java.time.Duration
 import kotlin.coroutines.cancellation.*
+import kotlin.time.ExperimentalTime
+import java.time.Instant
 
 private val stopId = BuildConfig.VRN_STOP_ID
 private val excludeDirection = BuildConfig.VRN_EXCLUDE_DIRECTION
@@ -44,7 +49,36 @@ suspend fun tripRequest() {
 
         if (response.status.value in 200..299) {
             val data = response.body<VrnDmResponse>()
-            println("Geparste Events: ${data.stopEvents}")
+
+            val nextThreeEvents = data.stopEvents
+                .filterNot { event ->
+                    val destinationName = event.transportation.destination.name.orEmpty()
+                    excludeDirection.isNotBlank() && destinationName.contains(excludeDirection, ignoreCase = true)
+
+                }
+                .take(3)
+
+            println("Abfahrten ab Schlehweg:")
+            nextThreeEvents.forEach { event ->
+                val line = event.transportation.disassembledName ?: "?"
+                val destination = event.transportation.destination?.name ?: "Unbekanntes Ziel"
+                val plannedTime = formatToGermanTime(event.departureTimePlanned)
+                val estimatedTime = event.departureTimeEstimated?.let { formatToGermanTime(it) } ?: "keine Echtzeit"
+
+                val delayMinutes = event.departureTimeEstimated?.let {estimatedStr ->
+                    val plannedInstant = Instant.parse(event.departureTimePlanned)
+                    val estimatedInstant = Instant.parse(estimatedStr)
+                    Duration.between(plannedInstant, estimatedInstant).toMinutes()
+                }
+
+                val delayText = if (delayMinutes != null && delayMinutes >= 2) {
+                    " | +$delayMinutes"
+                } else {
+                    ""
+                }
+
+                println("$line -> $destination | $plannedTime$delayText")
+            }
         }
     } catch (e: CancellationException) {
         throw e
