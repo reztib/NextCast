@@ -7,13 +7,13 @@
 *   - dann unter stopEvents.transportation die Felder:
         - disassembledName für die Linie
         - description für die Strecke
+        - destination für Ziel
+
 
 * - Fahrten Richtung Endhaltestelle rausfiltern:
 * - was bei stopEvents.transportation.destination.name den Ortsnamen enthält,
 *       über Kotlin filtern
  */
-
-
 package com.reztib.nextcast.departures
 
 import com.reztib.nextcast.BuildConfig
@@ -21,14 +21,15 @@ import com.reztib.nextcast.network.HttpClientProvider
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.HttpMethod
 import kotlinx.io.IOException
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.*
 
 private val stopId = BuildConfig.VRN_STOP_ID
 private val excludeDirection = BuildConfig.VRN_EXCLUDE_DIRECTION
+
+@InternalSerializationApi
 suspend fun tripRequest() {
     try {
         val response = HttpClientProvider.client.get("https://trias.vrn.de/vrn/XML_DM_REQUEST") {
@@ -42,7 +43,8 @@ suspend fun tripRequest() {
         }
 
         if (response.status.value in 200..299) {
-            println(response.bodyAsText())
+            val data = response.body<VrnDmResponse>()
+            println("Geparste Events: ${data.stopEvents}")
         }
     } catch (e: CancellationException) {
         throw e
@@ -56,8 +58,7 @@ suspend fun tripRequest() {
         Result.failure<Exception>(e)
         // JSON passt nicht
     } catch (e: Exception) {
-        Result.failure<Exception>(e)
+        //Result.failure<Exception>(e)
+        e.printStackTrace()
     }
-
-
 }
