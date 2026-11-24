@@ -22,5 +22,6 @@ object HttpClientProvider {
             requestTimeoutMillis = 10_000
             connectTimeoutMillis = 10_000
         }
+        expectSuccess = true
     }
 }

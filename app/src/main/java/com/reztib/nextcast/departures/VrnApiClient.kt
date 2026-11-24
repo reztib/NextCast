@@ -19,15 +19,16 @@ package com.reztib.nextcast.departures
 import com.reztib.nextcast.BuildConfig
 import com.reztib.nextcast.network.HttpClientProvider
 import io.ktor.client.call.body
+import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.HttpMethod
+import kotlinx.io.IOException
+import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.*
 
 private val stopId = BuildConfig.VRN_STOP_ID
 private val excludeDirection = BuildConfig.VRN_EXCLUDE_DIRECTION
-private val urlEndpoint = "https://trias.vrn.de/vrn/XML_DM_REQUEST?commonMacro=dm&outputFormat=RapidJSON&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&locationServerActive=1"
-
 suspend fun tripRequest() {
     try {
         val response = HttpClientProvider.client.get("https://trias.vrn.de/vrn/XML_DM_REQUEST") {
@@ -45,8 +46,18 @@ suspend fun tripRequest() {
         }
     } catch (e: CancellationException) {
         throw e
+    } catch (e: IOException) {
+        Result.failure<Exception>(e)
+        // Netzwerkprobleme / Timeout
+    } catch (e: ResponseException) {
+        Result.failure<Exception>(e)
+        // HTTP-Error 4xx / 5xx
+    } catch (e: SerializationException) {
+        Result.failure<Exception>(e)
+        // JSON passt nicht
     } catch (e: Exception) {
-        println(e.message)
+        Result.failure<Exception>(e)
     }
+
 
 }
